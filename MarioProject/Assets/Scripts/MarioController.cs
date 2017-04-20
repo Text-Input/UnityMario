@@ -18,7 +18,7 @@ public class MarioController : MonoBehaviour {
     void FixedUpdate() {
 
         float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        //float v = Input.GetAxis("Vertical");
 
         float xv = rb.velocity.x;
         float yv = rb.velocity.y;
@@ -35,27 +35,25 @@ public class MarioController : MonoBehaviour {
 
         // setting the "Speed" float in the animator
         anim.SetFloat("Speed", Mathf.Abs(h));
+        
 
-        bool grounded = IsGrounded();
-        print(grounded);
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        print(isGrounded);
+
+        if (Input.GetKey(KeyCode.Space)) {
             // do a jump
-            Vector2 jump = new Vector2(rb.velocity.x, jumpPower);
-            rb.velocity = jump;
+            if (isGrounded) {
+                Vector2 jump = new Vector2(rb.velocity.x, jumpPower);
+                rb.velocity = jump;
+                isGrounded = false;
+            }
         }
 
-        anim.SetBool("Jumping", !grounded);
+        anim.SetBool("Jumping", !isGrounded);
     }
 
-    bool IsGrounded() {
-        Bounds bounds = GetComponent<Collider2D>().bounds;
-        float range = bounds.size.y * 0.15f;
-
-        Vector2 v = new Vector2(bounds.center.x, bounds.min.y - range);
-
-        RaycastHit2D hit = Physics2D.Linecast(v, bounds.center);
-        return (hit.collider.gameObject != gameObject);
-        
+    void OnCollisionEnter2D(Collision2D collision) {
+        print("Collision!");
+        if (collision.gameObject.tag == "Solid") isGrounded = true;
     }
 }

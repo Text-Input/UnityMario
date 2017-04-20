@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 50937678051127408}
   m_Layer: 0
   m_Name: Mario
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  sliding: 0.5
+  sliding: 0
   jumpPower: 7
 --- !u!212 &212747125847460160
 SpriteRenderer:

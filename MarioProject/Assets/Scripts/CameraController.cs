@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-	// Use this for initialization
+    public GameObject player;
+
+    float offsetX;
+    float locationY;
+    Vector3 screenpos;
 	void Start () {
-		
+        offsetX = transform.position.x - player.transform.position.x;
+        
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	
+	void LateUpdate () {
+
+        screenpos = Camera.main.WorldToScreenPoint(player.transform.position);
+
+        if (screenpos.y >= Screen.height - 20) locationY = transform.position.y + 1;
+        if (screenpos.y <= 20) locationY = transform.position.y - 1;
+
+        transform.position = new Vector3(offsetX + player.transform.position.x, locationY, -10);
+    }
 }
