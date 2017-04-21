@@ -6,21 +6,33 @@ public class CameraController : MonoBehaviour {
 
     public GameObject player;
 
+    Vector3 properCameraPositon;
+    
+
     float offsetX;
     float locationY;
-    Vector3 screenpos;
-	void Start () {
+    Vector3 playerScreenPos;
+
+    void Start () {
         offsetX = transform.position.x - player.transform.position.x;
-        
+
+        properCameraPositon = transform.position;
 	}
 	
 	
 	void LateUpdate () {
 
-        screenpos = Camera.main.WorldToScreenPoint(player.transform.position);
+        playerScreenPos = Camera.main.WorldToScreenPoint(player.transform.position);
 
-        if (screenpos.y >= Screen.height - 20) locationY = transform.position.y + 1;
-        if (screenpos.y <= 20) locationY = transform.position.y - 1;
+        if (playerScreenPos.y >= Screen.height / 2) {
+            properCameraPositon.y = properCameraPositon.y + playerScreenPos.y - (Screen.height / 2);
+        }
+
+        if (playerScreenPos.y <= (Screen.height / 10)) {
+            properCameraPositon.y = properCameraPositon.y - playerScreenPos.y - (Screen.height / 10);
+        }
+
+        locationY = Mathf.Lerp(transform.position.y, properCameraPositon.y, Time.deltaTime);
 
         transform.position = new Vector3(offsetX + player.transform.position.x, locationY, -10);
     }

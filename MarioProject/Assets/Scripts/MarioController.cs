@@ -37,9 +37,6 @@ public class MarioController : MonoBehaviour {
         anim.SetFloat("Speed", Mathf.Abs(h));
         
 
-
-        print(isGrounded);
-
         if (Input.GetKey(KeyCode.Space)) {
             // do a jump
             if (isGrounded) {
@@ -52,8 +49,9 @@ public class MarioController : MonoBehaviour {
         anim.SetBool("Jumping", !isGrounded);
     }
 
+
     void OnCollisionEnter2D(Collision2D collision) {
-        print("Collision!");
+        
         if (collision.gameObject.tag == "Solid") isGrounded = true;
     }
 }
